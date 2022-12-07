@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  wireguard:
+    image: linuxserver/wireguard:latest
+    container_name: wireguard-client-saopaulo
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris #set correct timezone
+      - LOG_CONFS=true
+      - AUTOCONNECT=true
+    ports:
+      - 51820:51820/udp
+    volumes:
+      - /home/opc/code/crazybot/vpn/config/:/config
+#      - /usr/src:/usr/src # location of kernel headers
+#      - /lib/modules:/lib/modules
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: always
